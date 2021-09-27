@@ -1,0 +1,20 @@
+name = "lisbeth-hamlin-worker"
+type = "javascript"
+workers_dev = true
+compatibility_date = "2021-09-25"
+kv_namespaces = [
+  { binding = "LISBETH_HAMLIN", id = "6d03f407f6c44f2ba6688ef53dcc1eb4", preview_id = "6d03f407f6c44f2ba6688ef53dcc1eb4" }
+]
+
+[env.production]
+kv_namespaces = [
+  { binding = "LISBETH_HAMLIN", id = "f65e4d7d9cc14a5c8742c970491a7e1e" }
+]
+routes = ["https://worker.lisbethhamlin.com/*"]
+workers_dev = false
+
+[build]
+command = "npm install && npm run build"
+
+[build.upload]
+format = "service-worker"
