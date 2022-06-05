@@ -13,5 +13,5 @@ kv_namespaces = [
 routes = ["https://worker.lisbethhamlin.com/*"]
 workers_dev = false
 
-[build.upload]
-format = "service-worker"
+[build]
+  command = "npm run build"
