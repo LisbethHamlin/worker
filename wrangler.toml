@@ -1,4 +1,5 @@
 name = "lisbeth-hamlin-worker"
+main = "./dist/worker.js"
 workers_dev = true
 compatibility_date = "2022-06-05"
 kv_namespaces = [
@@ -12,14 +13,9 @@ kv_namespaces = [
 routes = ["https://worker.lisbethhamlin.com/*"]
 workers_dev = false
 
-[build.upload]
-format = "modules"
-dir = "./dist"
-main = "./worker.js"
-
-[[build.upload.rules]]
+[[rules]]
 type = "ESModule"
-globs = ["**/*.js"]
+globs = [ "./dist/*.js" ]
 
 [build]
 command = "npm ci && npm run build"
