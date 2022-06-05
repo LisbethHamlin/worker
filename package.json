@@ -8,7 +8,7 @@
     "build": "rollup -c",
     "format": "prettier --write  '*.{json,js}' 'src/**/*.{js,ts}' 'test/**/*.{js,ts}'",
     "lint": "eslint --max-warnings=0 src && prettier --check '*.{json,js}' 'src/**/*.{js,ts}' 'test/**/*.{js,ts}'",
-    "test": "jest --config jestconfig.json --verbose"
+    "test": "jest"
   },
   "author": "Bryce Mehring",
   "eslintConfig": {
@@ -19,11 +19,11 @@
     ]
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^2.2.2",
+    "@babel/preset-env": "^7.18.2",
+    "@cloudflare/workers-types": "^3.11.0",
     "@rollup/plugin-node-resolve": "^13.0.5",
     "@rollup/plugin-typescript": "^8.2.5",
-    "@types/jest": "^26.0.24",
-    "@types/lodash": "^4.14.174",
+    "@types/jest": "^28.1.1",
     "@types/lodash-es": "^4.17.5",
     "@types/service-worker-mock": "^2.0.1",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
@@ -31,11 +31,11 @@
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-config-typescript": "^3.0.0",
-    "jest": "^27.2.2",
+    "jest": "^28.1.0",
     "prettier": "^2.4.1",
     "rollup": "^2.57.0",
     "service-worker-mock": "^2.0.5",
-    "ts-jest": "^27.0.5",
+    "ts-jest": "^28.0.4",
     "typescript": "^4.4.3"
   },
   "dependencies": {

@@ -24,23 +24,22 @@ export async function handleRequest(request: Request): Promise<Response> {
   const limit = parseInt(searchParams.get('limit') ?? '0');
 
   if (!limit || limit > 500) {
-    return new Response('invalid limit query param', {
-      status: 400,
-    });
+    return new Response('invalid limit query param', { status: 400 });
+  }
+
+  const expirationTtl = await LISBETH_HAMLIN.get<number>('expirationTtl', 'json');
+  if (!expirationTtl) {
+    console.error('invalid expirationTtl');
+    return new Response(null, { status: 500 });
   }
 
   const cachedRandomItems = await LISBETH_HAMLIN.get<number[]>(
     'randomItems',
     'json',
   );
-  if (cachedRandomItems) {
-    if (limit === cachedRandomItems.length) {
-      return buildResponse({ items: cachedRandomItems });
-    }
+  if (limit === cachedRandomItems?.length) {
+    return buildResponse({ items: cachedRandomItems });
   }
-
-  const expirationTtl =
-    (await LISBETH_HAMLIN.get('expirationTtl')) ?? 2_628_000;
 
   const array = shuffle([...Array(limit).keys()]);
 
