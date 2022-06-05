@@ -2,9 +2,11 @@ import typescript from '@rollup/plugin-typescript';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 export default {
-  input: './src/index.ts',
+  input: './src/handler.ts',
   output: {
-    file: './dist/worker.js',
+    entryFileNames: 'worker.js',
+    chunkFileNames: '[name].js',
+    dir: 'dist',
     format: 'esm',
     sourcemap: true,
   },

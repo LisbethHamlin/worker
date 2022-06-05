@@ -1,6 +1,5 @@
-export {};
-
-declare global {
-  const PSK: string;
-  const LISBETH_HAMLIN: KVNamespace;
+export interface EnvVars {
+  PSK: string;
+  LISBETH_HAMLIN: KVNamespace;
 }
+
