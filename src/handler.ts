@@ -28,18 +28,18 @@ const exportHandler: ExportedHandler<EnvVars> = {
       return new Response('invalid limit query param', { status: 400 });
     }
 
-    const expirationTtl = await env.LISBETH_HAMLIN.get<number>('expirationTtl', 'json');
-    if (!expirationTtl) {
-      console.error('invalid expirationTtl');
-      return new Response(null, { status: 500 });
-    }
-
     const cachedRandomItems = await env.LISBETH_HAMLIN.get<number[]>(
       'randomItems',
       'json',
     );
     if (limit === cachedRandomItems?.length) {
       return buildResponse({ items: cachedRandomItems });
+    }
+
+    const expirationTtl = await env.LISBETH_HAMLIN.get<number>('expirationTtl', 'json');
+    if (!expirationTtl) {
+      console.error('invalid expirationTtl');
+      return new Response(null, { status: 500 });
     }
 
     const { default: shuffle } = await import('lodash-es/shuffle');
