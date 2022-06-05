@@ -14,4 +14,4 @@ routes = ["https://worker.lisbethhamlin.com/*"]
 workers_dev = false
 
 [build]
-  command = "npm run build"
+  command = "npm ci && npm run build"
