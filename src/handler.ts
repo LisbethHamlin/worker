@@ -1,39 +1,41 @@
-import { EnvVars } from './bindings';
+import type { EnvVars } from './bindings';
 
 const PRESHARED_AUTH_HEADER_KEY = 'X-Custom-PSK';
 
-const buildResponse = (data: any) => {
-  return new Response(JSON.stringify(data), {
+const buildJsonResponse = (data: number[] | ReadableStream | string) => {
+  if (Array.isArray(data)) {
+    data = JSON.stringify(data);
+  }
+  return new Response(data, {
     headers: {
       'content-type': 'application/json;charset=UTF-8',
     },
   });
 };
 
-
 const exportHandler: ExportedHandler<EnvVars> = {
   async fetch(request, env) {
     const psk = request.headers.get(PRESHARED_AUTH_HEADER_KEY);
 
     if (env.PSK !== psk) {
-      return new Response('invalid key.', {
+      return new Response(null, {
         status: 403,
       });
     }
 
     const { searchParams } = new URL(request.url);
-    const limit = parseInt(searchParams.get('limit') ?? '0');
+    const limit = Number(searchParams.get('limit'));
 
     if (!limit || limit > 500) {
       return new Response('invalid limit query param', { status: 400 });
     }
-
-    const cachedRandomItems = await env.LISBETH_HAMLIN.get<number[]>(
-      'randomItems',
-      'json',
+    const storeKey = `randomItems-${limit}`;
+    const cachedRandomItems = await env.LISBETH_HAMLIN.get(
+      storeKey,
+      'stream',
     );
-    if (limit === cachedRandomItems?.length) {
-      return buildResponse({ items: cachedRandomItems });
+    if (cachedRandomItems) {
+      return buildJsonResponse(cachedRandomItems);
     }
 
     const expirationTtl = await env.LISBETH_HAMLIN.get<number>('expirationTtl', 'json');
@@ -46,11 +48,11 @@ const exportHandler: ExportedHandler<EnvVars> = {
 
     const array = shuffle([...Array(limit).keys()]);
 
-    await env.LISBETH_HAMLIN.put('randomItems', JSON.stringify(array), {
+    await env.LISBETH_HAMLIN.put(storeKey, JSON.stringify(array), {
       expirationTtl,
     });
 
-    return buildResponse({ items: array });
+    return buildJsonResponse(array);
   }
 };
 
