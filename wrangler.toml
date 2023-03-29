@@ -1,5 +1,5 @@
 name = "lisbeth-hamlin-worker"
-main = "./src/handler.ts"
+main = "./dist/worker.js"
 workers_dev = true
 compatibility_date = "2023-03-28"
 kv_namespaces = [
@@ -12,3 +12,10 @@ kv_namespaces = [
 ]
 routes = ["https://worker.lisbethhamlin.com/*"]
 workers_dev = false
+
+[[rules]]
+type = "ESModule"
+globs = [ "./dist/*.js" ]
+
+[build]
+command = "npm ci && npm run build"
