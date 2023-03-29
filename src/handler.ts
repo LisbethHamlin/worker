@@ -1,7 +1,5 @@
 import type { EnvVars } from './bindings';
 
-const PRESHARED_AUTH_HEADER_KEY = 'X-Custom-PSK';
-
 const buildJsonResponse = (data: number[] | ReadableStream | string) => {
   if (Array.isArray(data)) {
     data = JSON.stringify(data);
@@ -15,14 +13,6 @@ const buildJsonResponse = (data: number[] | ReadableStream | string) => {
 
 const exportHandler: ExportedHandler<EnvVars> = {
   async fetch(request, env) {
-    const psk = request.headers.get(PRESHARED_AUTH_HEADER_KEY);
-
-    if (env.PSK !== psk) {
-      return new Response(null, {
-        status: 403,
-      });
-    }
-
     const { searchParams } = new URL(request.url);
     const limit = Number(searchParams.get('limit'));
 

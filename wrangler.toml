@@ -1,7 +1,7 @@
 name = "lisbeth-hamlin-worker"
-main = "./dist/worker.js"
+main = "./src/handler.ts"
 workers_dev = true
-compatibility_date = "2022-06-05"
+compatibility_date = "2023-03-28"
 kv_namespaces = [
   { binding = "LISBETH_HAMLIN", id = "6d03f407f6c44f2ba6688ef53dcc1eb4", preview_id = "6d03f407f6c44f2ba6688ef53dcc1eb4" }
 ]
@@ -12,10 +12,3 @@ kv_namespaces = [
 ]
 routes = ["https://worker.lisbethhamlin.com/*"]
 workers_dev = false
-
-[[rules]]
-type = "ESModule"
-globs = [ "./dist/*.js" ]
-
-[build]
-command = "npm ci && npm run build"
